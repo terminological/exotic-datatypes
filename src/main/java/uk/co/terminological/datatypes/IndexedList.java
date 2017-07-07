@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bmj.informatics.datatypes;
+package uk.co.terminological.datatypes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 
 /**
@@ -85,12 +85,8 @@ public class IndexedList<INDEX,LIST> implements Serializable {
 		return indexes;
 	}
 	
-	public Iterable<LIST> getAll() {
-		AppendableIterator<LIST> out = new AppendableIterator<LIST>(); 
-		for (Entry<INDEX, ArrayList<LIST>> entry:data.entrySet()) {
-			out.add(entry.getValue().iterator());
-		}
-		return out;
+	public Stream<LIST> stream() {
+		return data.entrySet().stream().flatMap(kv -> kv.getValue().stream());
 	}
 
 	public void remove(INDEX index, LIST list) {

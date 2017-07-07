@@ -1,14 +1,14 @@
 /**
  * 
  */
-package com.bmj.informatics.datatypes;
+package uk.co.terminological.view;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.bmj.informatics.datatypes.TreeNode.BranchNodeException;
-import com.bmj.informatics.datatypes.TreeNode.LeafNodeException;
+import uk.co.terminological.view.TreeNode.BranchNodeException;
+import uk.co.terminological.view.TreeNode.LeafNodeException;
 
 /**
  * @author RCHALLEN

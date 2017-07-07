@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bmj.informatics.datatypes;
+package uk.co.terminological.datatypes;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,7 +10,7 @@ import java.util.Iterator;
  * @author RCHALLEN
  *
  */
-public class DistinctValuesIterator<T extends Object> implements IteratorCollector<T>  {
+public class DistinctValuesIterator<T extends Object> implements Iterator<T>,Iterable<T>  {
 
 	private HashSet<T> store;
 	private Iterator<T> storeIt;
@@ -39,14 +39,14 @@ public class DistinctValuesIterator<T extends Object> implements IteratorCollect
 		this.store = new HashSet<T>();
 	}
 	
-	public IteratorCollector<T> add(Iterable<? extends T> it) {
+	public DistinctValuesIterator<T> add(Iterable<? extends T> it) {
 		for (T t: it) {
 			store.add(t);
 		}
 		return this;
 	}
 	
-	public IteratorCollector<T> add(Iterator<? extends T> it) {
+	public DistinctValuesIterator<T> add(Iterator<? extends T> it) {
 		while (it.hasNext()) {
 			T t = it.next();
 			store.add(t);

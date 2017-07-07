@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bmj.informatics.datatypes;
+package uk.co.terminological.view;
 
 
 /**
