@@ -2,6 +2,8 @@ package uk.co.terminological.datatypes;
 
 import java.io.Serializable;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * An immutable tuple class
@@ -89,5 +91,13 @@ public class Tuple<S1, S2> implements Cloneable, Serializable, Entry<S1,S2> {
 	 */
 	public S2 setValue(S2 arg0) {
 		throw new UnsupportedOperationException("Tuple is an immutable class.");
+	}
+	
+	public void consume(Consumer<Tuple<S1,S2>> function) {
+		function.accept(this);
+	}
+
+	public <R> R map(Function<Tuple<S1,S2>,? extends R> mapper) {
+		return mapper.apply(this);
 	}
 }

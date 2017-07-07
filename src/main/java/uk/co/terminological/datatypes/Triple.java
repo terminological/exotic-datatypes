@@ -1,6 +1,8 @@
 package uk.co.terminological.datatypes;
 
 import java.io.Serializable;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * An immutable triple class.
@@ -93,6 +95,14 @@ public class Triple<S1, S2, S3> implements Cloneable, Serializable {
 	public S1 entity() {return getFirst();}
 	public S2 attribute() {return getSecond();}
 	public S3 value() {return getThird();}
+	
+	public void consume(Consumer<Triple<S1,S2,S3>> function) {
+		function.accept(this);
+	}
+
+	public <R> R map(Function<Triple<S1,S2,S3>,? extends R> mapper) {
+		return mapper.apply(this);
+	}
 }
 
 

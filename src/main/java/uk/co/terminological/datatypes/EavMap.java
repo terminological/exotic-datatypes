@@ -3,6 +3,7 @@ package uk.co.terminological.datatypes;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -104,7 +105,7 @@ public class EavMap<E,A,V> implements Serializable  {
 		return vals;
 	}
 	
-	public HashMap<A,V> get(E entity) {
+	public Map<A,V> get(E entity) {
 		if (map.containsKey(entity)) return map.get(entity);
 		else return new HashMap<A,V>(); 
 	}
@@ -141,19 +142,14 @@ public class EavMap<E,A,V> implements Serializable  {
 		return count;
 	}
 
-	private static <E1,A1,V1> Triple<E1,A1,V1> convert (E1 e, Entry<A1,V1> av) {
-		return Triple.create(e, av.getKey(), av.getValue());
-	}
-	
 	public Stream<Triple<E,A,V>> stream() {
 		Stream<Entry<E,HashMap<A,V>>> tmp = map.entrySet().stream();
 		return tmp.flatMap(x -> {
 			E e = x.getKey();
 			Stream<Entry<A,V>> submap = x.getValue().entrySet().stream();
-			Stream<Triple<E,A,V>> out = submap.map(av -> convert(e,av));
+			Stream<Triple<E,A,V>> out = submap.map(av -> Triple.create(e, av.getKey(), av.getValue()));
 			return out;
-		});
-				
+		});			
 	}
 	
 	public EavMap<A,E,V> transpose() {
@@ -163,5 +159,6 @@ public class EavMap<E,A,V> implements Serializable  {
 		});
 		return out;
 	}
+	
 	
 }
