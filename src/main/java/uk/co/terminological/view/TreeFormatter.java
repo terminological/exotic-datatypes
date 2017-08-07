@@ -14,13 +14,14 @@ import uk.co.terminological.view.TreeNode.LeafNodeException;
  * @author RCHALLEN
  *
  */
-public interface TreeFormatter {
+public interface TreeFormatter<OUT> {
 	
 	public void write(TreeNode<?,?,?> node);
 	public void write(TreeBranch<?,?,?> branch);
 	public void write(TreeLeaf<?,?> leaf);
+	public OUT output();
 	
-	public static class DomFormatter implements TreeFormatter {
+	public static class DomFormatter implements TreeFormatter<Document> {
 		Document dom;
 		Node focus;
 		
