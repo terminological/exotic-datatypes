@@ -191,7 +191,8 @@ public class DelimitedParser {
 
 	/**
 	 * The readLine method parses the next line from the delimited stream.
-	 * @return A list of strings representing the fields in a single line of the file
+	 * @return A list of strings representing the fields in a single line of the file, missing values will
+	 * be represented as empty strings.
 	 * @throws EOFException
 	 * @throws MalformedCSVException
 	 */

@@ -43,7 +43,11 @@ public class EavMap<E,A,V> implements Serializable  {
 		this.put(entity, attribute, value);
 		return this;
 	}
-		
+	
+	public EavMap<E,A,V> add(E entity, Map<A,V> attributeValue) {
+		this.map.put(entity, new HashMap<A,V>(attributeValue));
+		return this;
+	}
 	
 	public void clear() {
 		map = new HashMap<E,HashMap<A,V>>();
