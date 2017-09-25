@@ -4,6 +4,8 @@
 package uk.co.terminological.datatypes;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -34,8 +36,22 @@ public class FluentList<S> extends ArrayList<S> {
 		return out;
 	}
 	
+	@SafeVarargs
+	public static <T> FluentList<T> create(Collection<T>... args) {
+		FluentList<T> out = new FluentList<T>();
+		for (Collection<T> arg: args) {
+			out.addAll(arg);
+		}
+		return out;
+	}
+	
 	public FluentList<S> and(S element) {
 		this.add(element);
+		return this;
+	}
+	
+	public FluentList<S> append(List<S> element) {
+		if (element != null) this.addAll(element);
 		return this;
 	}
 }

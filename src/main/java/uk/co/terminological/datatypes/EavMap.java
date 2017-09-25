@@ -3,6 +3,7 @@ package uk.co.terminological.datatypes;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -21,16 +22,16 @@ import javax.xml.bind.annotation.XmlTransient;
 public class EavMap<E,A,V> implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
-	HashMap<E,HashMap<A,V>> map;
+	LinkedHashMap<E,HashMap<A,V>> map;
 	@XmlTransient int attributes;
 
 	public EavMap() {
-		map = new HashMap<E,HashMap<A,V>>();
+		map = new LinkedHashMap<E,HashMap<A,V>>();
 		attributes = 20;
 	}
 	
 	public EavMap(int entities,int attributes) {
-		map = new HashMap<E,HashMap<A,V>>(entities, 0.99F);
+		map = new LinkedHashMap<E,HashMap<A,V>>(entities, 0.99F);
 		this.attributes = attributes;
 	}
 	
@@ -50,7 +51,7 @@ public class EavMap<E,A,V> implements Serializable  {
 	}
 	
 	public void clear() {
-		map = new HashMap<E,HashMap<A,V>>();
+		map = new LinkedHashMap<E,HashMap<A,V>>();
 	}
 
 	public boolean containsEntity(E entity) {
@@ -111,7 +112,7 @@ public class EavMap<E,A,V> implements Serializable  {
 	
 	public Map<A,V> get(E entity) {
 		if (map.containsKey(entity)) return map.get(entity);
-		else return new HashMap<A,V>(); 
+		else return new LinkedHashMap<A,V>(); 
 	}
 
 	public boolean isEmpty() {
@@ -122,7 +123,7 @@ public class EavMap<E,A,V> implements Serializable  {
 		if (map.containsKey(entity)) {
 			map.get(entity).put(attribute, value);
 		} else {
-			HashMap<A,V> tmp = new HashMap<A,V>(attributes,0.99F);
+			HashMap<A,V> tmp = new LinkedHashMap<A,V>(attributes,0.99F);
 			tmp.put(attribute, value);
 			map.put(entity, tmp);
 		}
@@ -154,6 +155,14 @@ public class EavMap<E,A,V> implements Serializable  {
 			Stream<Triple<E,A,V>> out = submap.map(av -> Triple.create(e, av.getKey(), av.getValue()));
 			return out;
 		});			
+	}
+	
+	public Stream<Tuple<E, Map<A,V>>> streamEntities() {
+		return map.entrySet().stream().map(eav -> 
+			Tuple.create(
+					eav.getKey(),
+					eav.getValue())
+		);
 	}
 	
 	public EavMap<A,E,V> transpose() {

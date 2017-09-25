@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.terminological.datatypes;
+package uk.co.terminological.mappers;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,7 +36,8 @@ public enum DateFormatString {
 	UK_DEFAULT ("dd/MM/yyyy"),
 	DATESTAMP ("yyyyMMdd"),
 	TIMESTAMP ("HHmmss"),
-	HUMAN_MON_DAY_YEAR ("MMM dd, yyyy")
+	HUMAN_MON_DAY_YEAR ("MMM dd, yyyy"),
+	HL7_DATE ("yyyyMMddHHmmss")
 	;
 	
 	String str;
