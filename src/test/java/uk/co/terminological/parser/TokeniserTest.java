@@ -43,6 +43,7 @@ public class TokeniserTest {
 		
 	}
 
+	@Test
 	public void testTokeniser2() {
 		Tokeniser tsv = new Tokeniser(
 			new EOL("\r\n"),

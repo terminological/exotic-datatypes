@@ -22,7 +22,8 @@ import uk.co.terminological.parser.Tokens.EOF;
 /**
  * Tokeniser converts a Reader into a Iterator of Tokens
  * based on the set of supplied tokens. If an input cannot
- * be matched to a token 
+ * be matched to a token it will return a very general Matcher.Default token.
+ * 
  * 
  * @author rc538
  *
@@ -98,7 +99,7 @@ class Tokeniser {
 						possibilities.consume(new EOF());
 						eofFlag = true;
 					} else {
-						log.info(pos+": "+buff.toString());
+						log.trace(pos+": "+String.valueOf(buff));
 						possibilities.consume(buff[0]);
 						pos += 1;
 					}

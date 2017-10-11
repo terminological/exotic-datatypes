@@ -3,15 +3,12 @@ package uk.co.terminological.parser;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Queue;
 
-import uk.co.terminological.parser.DelimitedParser.States;
+import uk.co.terminological.parser.DelimitedParserMachine.States;
 import uk.co.terminological.parser.StateMachineException.HandledStateMachineException;
 
-public class DelimitedParserExecutor extends StateMachineExecutor {
+public class DelimitedParserExecutor extends StateMachineIterator<List<String>> {
 
-	Queue<List<String>> lines = new LinkedList<>();
 	LinkedList<String> line = new LinkedList<>();
 	StringBuilder field = new StringBuilder();
 	
@@ -25,9 +22,9 @@ public class DelimitedParserExecutor extends StateMachineExecutor {
 			log.trace("Ignored error: "+((State.Error) end).getMessage()); 
 			return current;
 			
-		} else if (end instanceof DelimitedParser.States) {
+		} else if (end instanceof DelimitedParserMachine.States) {
 			
-			switch ((DelimitedParser.States) current) {
+			switch ((DelimitedParserMachine.States) end) {
 			
 			case FIELD_TERMINATED:
 				line.add(field.toString());
@@ -42,7 +39,7 @@ public class DelimitedParserExecutor extends StateMachineExecutor {
 					field = new StringBuilder();
 				}
 				if (!current.equals(States.LINE_TERMINATED)) {
-					lines.add(line);
+					this.push(line);
 					line = new LinkedList<>();
 				}
 				break;
@@ -53,7 +50,7 @@ public class DelimitedParserExecutor extends StateMachineExecutor {
 					line.add(field.toString());
 					field = new StringBuilder();
 				}
-				lines.add(line);
+				this.push(line);
 				line = new LinkedList<>();
 				break;
 			case READING_ENCLOSED:
@@ -77,50 +74,15 @@ public class DelimitedParserExecutor extends StateMachineExecutor {
 	}
 
 	
-	DelimitedParserExecutor() {
-		//Iterator<Token> tokenProvider = lex.iterator(reader);
+	DelimitedParserExecutor(StateMachine machine, Iterator<Token> input) {
+		this.setInput(input);
+		this.setMachine(machine);
 		
 	}
 	
-	/**
-	 * The readLine method parses the next line from the delimited stream.
-	 * @return A list of strings representing the fields in a single line of the file, missing values will
-	 * be represented as empty strings.
-	 * @throws StateMachineException 
-	 * 
-	 */
-	public List<String> readLine() throws StateMachineException { 
-		while(lines.isEmpty()) {
-			this.execute();
-		}
-		return lines.poll();
+	DelimitedParserExecutor(StateMachine machine, Iterator<Token> input, ErrorHandler handler ) {
+		this.setInput(input);
+		this.setMachine(machine);
+		this.setErrorHandler(handler);
 	}
-	
-	public Iterator<List<String>> readLines() {
-		return new Iterator<List<String>>() {
-			public boolean hasNext() {
-				try {
-					while (lines.isEmpty()) {
-						DelimitedParserExecutor.this.execute();
-					}
-					return !lines.isEmpty();
-				} catch (StateMachineException e) {
-					return false;
-				}
-			}
-			public List<String> next() {
-				if (hasNext()) {
-					return lines.poll();
-				} else {
-					throw new NoSuchElementException();
-				}
-			}
-		};
-	}
-
-	/*
-	public Stream<List<String>> stream() {
-		return StreamSupport.stream(readLines().spliterator(),false);
-	}
-	 */
 }

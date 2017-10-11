@@ -3,6 +3,7 @@ package uk.co.terminological.mappers;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -32,13 +33,14 @@ public class ProxyMapWrapper {
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T proxy(final Map<String,String> av, Class<T> type) {
+		
+		final Map<String,String> methodMap = new HashMap<>();
+		av.entrySet().stream().forEach(kv -> methodMap.put(methodName(kv.getKey()), kv.getValue()));
+		
 		return (T) Proxy.newProxyInstance(type.getClassLoader(), new Class[] {type}, new InvocationHandler() {
 			@Override
 			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-				//This is probably slow
-				String value = av.keySet().stream().filter(k -> methodName(k).equals(method.getName()))
-					.findFirst().map(k -> av.get(k))
-					.orElse(null);
+				String value = methodMap.get(method.getName());
 				return StringCaster.cast(method.getReturnType(), value);
 			}
 		});

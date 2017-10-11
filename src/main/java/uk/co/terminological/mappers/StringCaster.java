@@ -227,9 +227,9 @@ public class StringCaster {
 	public static Class<?> guessType(String s) {
 		if (s.isEmpty()) return Void.class;
 		if (s.matches("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")) return UUID.class;
-		if (s.matches("-?[0-9]+")) return Integer.class;
-		if (s.matches("-?[0-9]*\\.[0-9]+")) return Float.class;
-		if (s.toLowerCase().matches("t|f|y|n|0|1|true|false|yes|no")) return Boolean.class;
+		if (s.matches("[-+]?\\d+")) return Integer.class;
+		if (s.matches("[-+]?[0-9]*\\.[0-9]+")) return Float.class;
+		if (s.toLowerCase().matches("t|f|y|n|true|false|yes|no")) return Boolean.class;
 		try { 
 			DateFormatString.tryAll(s);
 			return Date.class;
@@ -243,7 +243,7 @@ public class StringCaster {
 	public static Map<String,Class<?>> guessTypes(Map<String, String> types) {
 		Map<String,Class<?>> out = new LinkedHashMap<>();
 		for (Entry<String, String> type : types.entrySet()) {
-			out.put(type.getValue(), StringCaster.guessType(type.getValue()));
+			out.put(type.getKey(), StringCaster.guessType(type.getValue()));
 		}
 		return out;
 	}
