@@ -14,9 +14,9 @@ import uk.co.terminological.parser.StateMachineException.HandledStateMachineExce
  *
  * @param <X>
  */
-public abstract class StateMachineIterator<X> extends StateMachineExecutor implements Iterator<Deferred<X,StateMachineException>> {
+public abstract class StateMachineIterator<X> extends StateMachineExecutor implements Iterator<Deferred<X,ParserException>> {
 
-	Queue<Deferred<X,StateMachineException>> output = new LinkedList<>();
+	Queue<Deferred<X,ParserException>> output = new LinkedList<>();
 	
 	public abstract State handle(Token token, Transition transition, State current, State end)
 			throws HandledStateMachineException;
@@ -40,9 +40,9 @@ public abstract class StateMachineIterator<X> extends StateMachineExecutor imple
 		}
 	}
 	
-	public Deferred<X,StateMachineException> next() {
+	public Deferred<X,ParserException> next() {
 		if (hasNext()) {
-			return output.poll();
+			return (Deferred<X, ParserException>) output.poll();
 		} else {
 			throw new NoSuchElementException();
 		}

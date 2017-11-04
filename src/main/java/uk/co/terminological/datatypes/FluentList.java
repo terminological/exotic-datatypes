@@ -45,6 +45,10 @@ public class FluentList<S> extends ArrayList<S> {
 		return out;
 	}
 	
+	public static <T> FluentList<T> empty() {
+		return new FluentList<T>();
+	}
+	
 	public FluentList<S> and(S element) {
 		this.add(element);
 		return this;
@@ -54,4 +58,6 @@ public class FluentList<S> extends ArrayList<S> {
 		if (element != null) this.addAll(element);
 		return this;
 	}
+
+	
 }

@@ -17,12 +17,22 @@ public class DelimitedParserTest {
 			"the,\"cat,sat\"on,the,mat\n"
 		);
 	
-	public static void main(String[] args) throws StateMachineException {
+	static Reader tsv = new StringReader(
+			"the\tcat\tsat\ton\tthe\tmat\r\n" +
+			"the\tcat\tsat\ton\tthe\tmat\n"
+		);
+	
+	public static void main(String[] args) throws ParserException {
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.ALL);
-		for (Deferred<List<String>, StateMachineException> line: DelimitedParserBuilder.excelCsv(r)) {
+		for (Deferred<List<String>, ParserException> line: DelimitedParserBuilder.excelCsv(r)) {
 			System.out.println(line.get());
 		}
+		
+		for (Deferred<List<String>, ParserException> line: DelimitedParserBuilder.tsv(tsv)) {
+			System.out.println(line.get());
+		}
+		
 	}
 	
 }

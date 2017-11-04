@@ -44,6 +44,10 @@ public class FluentSet<S> extends HashSet<S> {
 		return out;
 	}
 	
+	public static <T> FluentSet<T> empty() {
+		return new FluentSet<T>();
+	}
+	
 	public FluentSet<S> and(S element) {
 		this.add(element);
 		return this;

@@ -12,7 +12,7 @@ import java.util.HashMap;
  * @author RCHALLEN
  *
  */
-public class TreeBranch<PARENT, TYPE, CHILD> implements TreeNode<PARENT, TYPE,CHILD> {
+public class TreeBranch<PARENT, TYPE, CHILD> implements TreeNode<PARENT,TYPE,CHILD> {
 
 	String name;
 	TYPE value;

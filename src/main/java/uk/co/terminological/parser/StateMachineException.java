@@ -1,6 +1,6 @@
 package uk.co.terminological.parser;
 
-public class StateMachineException extends Exception {
+public class StateMachineException extends ParserException {
 	public StateMachineException(String message, Exception e) {
 		super(message,e);
 	}

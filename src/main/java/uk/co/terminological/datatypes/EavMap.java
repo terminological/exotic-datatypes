@@ -1,9 +1,8 @@
 package uk.co.terminological.datatypes;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -22,16 +21,16 @@ import javax.xml.bind.annotation.XmlTransient;
 public class EavMap<E,A,V> implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
-	LinkedHashMap<E,HashMap<A,V>> map;
+	LinkedHashMap<E,LinkedHashMap<A,V>> map;
 	@XmlTransient int attributes;
 
 	public EavMap() {
-		map = new LinkedHashMap<E,HashMap<A,V>>();
+		map = new LinkedHashMap<E,LinkedHashMap<A,V>>();
 		attributes = 20;
 	}
 	
 	public EavMap(int entities,int attributes) {
-		map = new LinkedHashMap<E,HashMap<A,V>>(entities, 0.99F);
+		map = new LinkedHashMap<E,LinkedHashMap<A,V>>(entities, 0.99F);
 		this.attributes = attributes;
 	}
 	
@@ -46,12 +45,12 @@ public class EavMap<E,A,V> implements Serializable  {
 	}
 	
 	public EavMap<E,A,V> add(E entity, Map<A,V> attributeValue) {
-		this.map.put(entity, new HashMap<A,V>(attributeValue));
+		this.map.put(entity, new LinkedHashMap<A,V>(attributeValue));
 		return this;
 	}
 	
 	public void clear() {
-		map = new LinkedHashMap<E,HashMap<A,V>>();
+		map = new LinkedHashMap<E,LinkedHashMap<A,V>>();
 	}
 
 	public boolean containsEntity(E entity) {
@@ -65,7 +64,7 @@ public class EavMap<E,A,V> implements Serializable  {
 	}
 
 	public boolean containsValue(V value) {
-		for (HashMap<A,V> sub: map.values()) {
+		for (LinkedHashMap<A,V> sub: map.values()) {
 			if (sub.containsValue(value)) return true;
 		}
 		return false;
@@ -95,7 +94,7 @@ public class EavMap<E,A,V> implements Serializable  {
 	}
 	
 	public Set<A> getAttributeSet() {
-		HashSet<A> atts = new HashSet<A>();
+		LinkedHashSet<A> atts = new LinkedHashSet<A>();
 		for (E entity: getEntitySet()) {
 			atts.addAll(this.get(entity).keySet());
 		}
@@ -103,7 +102,7 @@ public class EavMap<E,A,V> implements Serializable  {
 	}
 	
 	public Set<V> getValueSet() {
-		HashSet<V> vals = new HashSet<V>();
+		LinkedHashSet<V> vals = new LinkedHashSet<V>();
 		for (E entity: getEntitySet()) {
 			vals.addAll(this.get(entity).values());
 		}
@@ -123,7 +122,7 @@ public class EavMap<E,A,V> implements Serializable  {
 		if (map.containsKey(entity)) {
 			map.get(entity).put(attribute, value);
 		} else {
-			HashMap<A,V> tmp = new LinkedHashMap<A,V>(attributes,0.99F);
+			LinkedHashMap<A,V> tmp = new LinkedHashMap<A,V>(attributes,0.99F);
 			tmp.put(attribute, value);
 			map.put(entity, tmp);
 		}
@@ -141,14 +140,14 @@ public class EavMap<E,A,V> implements Serializable  {
 
 	public int size() {
 		int count = 0;
-		for (HashMap<A, V> tmp: map.values()) {
+		for (LinkedHashMap<A, V> tmp: map.values()) {
 			count += tmp.size();
 		}
 		return count;
 	}
 
 	public Stream<Triple<E,A,V>> stream() {
-		Stream<Entry<E,HashMap<A,V>>> tmp = map.entrySet().stream();
+		Stream<Entry<E,LinkedHashMap<A,V>>> tmp = map.entrySet().stream();
 		return tmp.flatMap(x -> {
 			E e = x.getKey();
 			Stream<Entry<A,V>> submap = x.getValue().entrySet().stream();
