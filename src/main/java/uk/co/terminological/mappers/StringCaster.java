@@ -225,7 +225,7 @@ public class StringCaster {
 	}
 	
 	public static Class<?> guessType(String s) {
-		if (s.isEmpty()) return Void.class;
+		if (s == null || s.isEmpty()) return Object.class;
 		if (s.matches("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")) return UUID.class;
 		if (s.matches("[-+]?\\d+")) return Integer.class;
 		if (s.matches("[-+]?[0-9]*\\.[0-9]+")) return Float.class;
