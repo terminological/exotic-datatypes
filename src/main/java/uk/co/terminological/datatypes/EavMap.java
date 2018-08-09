@@ -146,6 +146,10 @@ public class EavMap<E,A,V> implements Serializable  {
 		return count;
 	}
 
+	public int numberEntities() {
+		return map.size();
+	}
+	
 	public Stream<Triple<E,A,V>> stream() {
 		Stream<Entry<E,LinkedHashMap<A,V>>> tmp = map.entrySet().stream();
 		return tmp.flatMap(x -> {

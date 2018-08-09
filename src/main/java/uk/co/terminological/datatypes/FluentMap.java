@@ -67,5 +67,9 @@ public class FluentMap<K,V> extends HashMap<K,V> implements Iterable<Tuple<K,V>>
 			
 		};
 	}
+
+	public static <K,V>  FluentMap<K,V> empty() {
+		return new FluentMap<K,V>();
+	}
 	
 }
