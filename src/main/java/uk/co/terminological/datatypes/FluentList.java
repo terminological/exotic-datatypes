@@ -25,6 +25,11 @@ public class FluentList<S> extends ArrayList<S> {
 		return out;
 	}
 	
+	public static <T> FluentList<T> create() {
+		FluentList<T> out = new FluentList<T>();
+		return out;
+	}
+	
 	public static <T> FluentList<T> create(Class<T> type) {
 		FluentList<T> out = new FluentList<T>();
 		return out;

@@ -16,7 +16,6 @@ public class TreeLeaf<PARENT,TYPE> implements TreeNode<PARENT,TYPE,Object> {
 	
 	@Override
 	public TreeBranch<?,PARENT,TYPE> getParent() throws RootNodeException {
-		// TODO Auto-generated method stub
 		return parent;
 	}
 	
