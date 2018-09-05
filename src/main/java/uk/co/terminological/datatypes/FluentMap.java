@@ -19,6 +19,11 @@ public class FluentMap<K,V> extends HashMap<K,V> implements Iterable<Tuple<K,V>>
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	public static <K1,V1> FluentMap<K1,V1> create() {
+		FluentMap<K1,V1> out = new FluentMap<K1,V1>();
+		return out;
+	}
+	
 	public static <K1,V1> FluentMap<K1,V1> create(Class<K1> keyClass,Class<V1> valueClass) {
 		FluentMap<K1,V1> out = new FluentMap<K1,V1>();
 		return out;
