@@ -44,6 +44,19 @@ public class StreamExceptions {
 			}
 		};
 	}
+	
+	public static <T, R, E extends Exception> Function<T, Optional<R>> logWarn(FunctionWithException<T, R, E> fe) {
+		return arg -> {
+			try {
+				return Optional.of(fe.apply(arg));
+			} catch (Exception e) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				e.printStackTrace(new PrintStream(baos));
+				log.warn(baos.toString());
+				return Optional.empty();
+			}
+		};
+	}
 
 	// Consumer
 	@FunctionalInterface
