@@ -102,6 +102,10 @@ public class StreamExceptions {
 		rethrow(fe).accept(val);
 	}
 	
+	public static <T, R, E extends Exception> R tryDoRethrow(T val, FunctionWithException<T, R, E> fe) {
+		return rethrow(fe).apply(val);
+	}
+	
 	public static <T, E extends Exception> void tryLogWarn(ConsumerWithException<T, E> fe) {
 		logWarn(fe).accept(null);
 	}
