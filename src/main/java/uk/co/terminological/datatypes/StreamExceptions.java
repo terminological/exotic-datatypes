@@ -99,6 +99,11 @@ public class StreamExceptions {
 		};
 	}
 	
+	@FunctionalInterface
+	public static interface SupplierWithException<T, E extends Exception> {
+		T get() throws E;
+	}
+	
 	public static <T, E extends Exception> void tryIgnore(ConsumerWithException<T, E> fe) {
 		ignore(fe).accept(null);
 	}
