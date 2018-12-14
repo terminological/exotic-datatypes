@@ -175,6 +175,12 @@ public class EavMap<E,A,V> implements Serializable  {
 		});
 		return out;
 	}
+
+	public V getOrElse(E x, A y, V i) {
+		V tmp = get(x,y);
+		if (tmp == null) return i;
+		return tmp;
+	}
 	
 	
 }
