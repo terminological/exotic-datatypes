@@ -100,4 +100,12 @@ public class Tuple<S1, S2> implements Cloneable, Serializable, Entry<S1,S2> {
 	public <R> R map(Function<Tuple<S1,S2>,? extends R> mapper) {
 		return mapper.apply(this);
 	}
+
+	public void setSecond(S2 second) {
+		this.second = second;
+	}
+	
+	public void setFirst(S1 first) {
+		this.first = first;
+	}
 }
