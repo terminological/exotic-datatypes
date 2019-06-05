@@ -33,6 +33,8 @@ public enum DateFormatString {
 	APACHE_LOG ("dd/MMM/yyyy:HH:mm:ss Z"),
 	YYYYMM ("yyyyMM"),
 	YYYYMMDD ("yyyyMMdd"),
+	SQL_DATE ("yyyy-MM-dd"),
+	SQL_DATETIME ("yyyy-MM-dd HH:mm:ss.SSS"),
 	UK_DEFAULT ("dd/MM/yyyy"),
 	DATESTAMP ("yyyyMMdd"),
 	TIMESTAMP ("HHmmss"),
