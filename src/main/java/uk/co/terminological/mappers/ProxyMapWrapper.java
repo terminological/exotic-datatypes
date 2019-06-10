@@ -18,7 +18,7 @@ public class ProxyMapWrapper {
 	
 	/** converts a package and filename to a reasonable java class name */
 	public static String className(String packagename, String filename) {
-		filename = filename.substring(0, filename.lastIndexOf('.'));
+		if (filename.contains(".")) filename = filename.substring(0, filename.lastIndexOf('.'));
 		String sb = toCamelCase(filename); 
 		return packagename+"."+sb.substring(0, 1).toUpperCase()
 				+ (sb.length()>1 ? sb.substring(1) : "");

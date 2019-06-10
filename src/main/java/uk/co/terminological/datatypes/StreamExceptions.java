@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,6 +104,43 @@ public class StreamExceptions {
 	public static interface SupplierWithException<T, E extends Exception> {
 		T get() throws E;
 	}
+
+	public static <T, E extends Exception> Supplier<T> rethrow(SupplierWithException<T, E> fe) {
+		return new Supplier<T>() {
+			@Override
+			public T get() {
+				try {
+					return fe.get();
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}		
+			}
+		};
+	}
+
+	public static <T, E extends Exception> Supplier<Optional<T>> ignore(SupplierWithException<T, E> fe) {
+		return () -> {
+			try {
+				return Optional.ofNullable(fe.get());
+			} catch (Exception e) {
+				return Optional.empty();
+				//do nothing;
+			}
+		};
+	}
+	
+	public static <T, E extends Exception> Supplier<Optional<T>> logWarn(SupplierWithException<T, E> fe) {
+		return () -> {
+			try {
+				return Optional.ofNullable(fe.get());
+			} catch (Exception e) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				e.printStackTrace(new PrintStream(baos));
+				log.warn(baos.toString());
+				return Optional.empty();
+			}
+		};
+	}
 	
 	public static <T, E extends Exception> void tryIgnore(ConsumerWithException<T, E> fe) {
 		ignore(fe).accept(null);
@@ -112,12 +150,21 @@ public class StreamExceptions {
 		ignore(fe).accept(val);
 	}
 	
+	public static <T, E extends Exception> Optional<T> tryIgnore(SupplierWithException<T, E> fe) {
+		return ignore(fe).get();
+	}
+	
+	
 	public static <T, E extends Exception> void tryRethrow(ConsumerWithException<T, E> fe) {
 		rethrow(fe).accept(null);
 	}
 	
 	public static <T, E extends Exception> void tryRethrow(T val, ConsumerWithException<T, E> fe) {
 		rethrow(fe).accept(val);
+	}
+	
+	public static <T, E extends Exception> T tryRethrow(SupplierWithException<T, E> fe) {
+		return rethrow(fe).get();
 	}
 	
 	public static <T, R, E extends Exception> R tryDoRethrow(T val, FunctionWithException<T, R, E> fe) {
@@ -130,6 +177,10 @@ public class StreamExceptions {
 	
 	public static <T, E extends Exception> void tryLogWarn(T val, ConsumerWithException<T, E> fe) {
 		logWarn(fe).accept(val);
+	}
+	
+	public static <T, E extends Exception> Optional<T> tryLogWarn(SupplierWithException<T, E> fe) {
+		return logWarn(fe).get();
 	}
 	//TODO: Other functional interfaces.
 }
