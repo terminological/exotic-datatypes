@@ -181,6 +181,11 @@ public class EavMap<E,A,V> implements Serializable  {
 		if (tmp == null) return i;
 		return tmp;
 	}
+
+	public EavMap<E,A,V> addAll(EavMap<E,A,V> map2) {
+		map2.streamEntities().forEach(t -> this.add(t.getFirst(), t.getSecond()));
+		return this;
+	}
 	
 	
 }
