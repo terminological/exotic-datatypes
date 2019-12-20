@@ -59,7 +59,7 @@ public class FluentList<S> extends ArrayList<S> {
 		return this;
 	}
 	
-	public FluentList<S> append(List<S> element) {
+	public FluentList<S> append(Collection<S> element) {
 		if (element != null) this.addAll(element);
 		return this;
 	}
