@@ -3,6 +3,7 @@
  */
 package uk.co.terminological.datatypes;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -40,9 +41,12 @@ public class FluentMap<K,V> extends HashMap<K,V> implements Iterable<Tuple<K,V>>
 		return this;
 	}
 
-	public static <K1,V1> FluentMap<K1,V1> create(HashMap<K1,V1> map) {
+	@SafeVarargs
+	public static <K1,V1> FluentMap<K1,V1> create(Map<K1,V1>... maps) {
 		FluentMap<K1,V1> out = new FluentMap<K1,V1>();
-		out.putAll(map);
+		for (Map<K1,V1> arg: maps) {
+			out.putAll(arg);
+		}
 		return out;
 	}
 	
