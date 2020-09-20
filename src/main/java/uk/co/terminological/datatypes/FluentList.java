@@ -5,7 +5,6 @@ package uk.co.terminological.datatypes;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 
 /**
@@ -64,5 +63,4 @@ public class FluentList<S> extends ArrayList<S> {
 		return this;
 	}
 
-	
 }

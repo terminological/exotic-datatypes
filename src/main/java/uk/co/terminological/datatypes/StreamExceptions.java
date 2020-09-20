@@ -46,6 +46,20 @@ public class StreamExceptions {
 		};
 	}
 	
+	public static <T, R, E extends Exception> Function<T, Optional<R>> ignoreFunction(FunctionWithException<T, R, E> fe) {
+		return ignore(fe);
+	}
+	
+	public static <T, R> Function<T, Optional<R>> ignoreRuntime(Function<T, R> fe) {
+		return arg -> {
+			try {
+				return Optional.of(fe.apply(arg));
+			} catch (Exception e) {
+				return Optional.empty();
+			}
+		};
+	}
+	
 	public static <T, R, E extends Exception> Function<T, Optional<R>> logWarn(FunctionWithException<T, R, E> fe) {
 		return arg -> {
 			try {

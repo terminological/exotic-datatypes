@@ -3,10 +3,11 @@
  */
 package uk.co.terminological.datatypes;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author RCHALLEN
@@ -81,4 +82,12 @@ public class FluentMap<K,V> extends HashMap<K,V> implements Iterable<Tuple<K,V>>
 		return new FluentMap<K,V>();
 	}
 	
+	public Optional<V> getOpt(K key) {
+		return Optional.ofNullable(this.get(key)); 
+	}
+	
+	public Stream<V> getStream(K key) {
+		if (this.containsKey(key) & this.get(key) != null) return Stream.of(this.get(key));
+		else return Stream.empty();
+	}
 }

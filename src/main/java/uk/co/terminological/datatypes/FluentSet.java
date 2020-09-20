@@ -52,4 +52,9 @@ public class FluentSet<S> extends HashSet<S> {
 		this.add(element);
 		return this;
 	}
+	
+	public FluentSet<S> append(Collection<S> element) {
+		if (element != null) this.addAll(element);
+		return this;
+	}
 }
