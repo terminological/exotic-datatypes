@@ -55,6 +55,8 @@ public class TupleList<X, Y>  extends ArrayList<Tuple<X,Y>> {
 		return this;
 	}
 
-	
+	public boolean contains(X element1, Y element2) {
+		return this.contains(Tuple.create(element1, element2));
+	}
 
 }
