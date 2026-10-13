@@ -8,8 +8,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
  * A Java 8 friendly Entity-Attribute-Value map backed on hash maps.
  * @author terminological
@@ -22,7 +20,7 @@ public class EavMap<E,A,V> implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 	LinkedHashMap<E,LinkedHashMap<A,V>> map;
-	@XmlTransient int attributes;
+	int attributes;
 
 	public EavMap() {
 		map = new LinkedHashMap<E,LinkedHashMap<A,V>>();
